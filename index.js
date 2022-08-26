@@ -1,57 +1,70 @@
-// const name = "aaa";
-// const message1 = "私の名前は${name}";
+// import "./styles.css"
 
-// console.log(message1);
+const onClickAdd = () => {
+  // 入力を取得して変数に代入、その後初期化
+  const input_text = document.getElementById("add-text").value;
+  document.getElementById("add-text").value = "";
 
+  create_incomplete_list(input_text);
+};
 
-// // function func(str) {
-// //   return str; 
-// // }
-// // console.log(func("aefae"));
+// 未完了から削除する
+const delete_from_incomplete = (target) => {
+  document.getElementById("incomplete-list").removeChild(target);
+};
 
-// // アロー関数
-// const func2 = (str) => {
-//   return str;
-// };
+// 未完了リストに追加
+const create_incomplete_list = (text) => {
+  const div = document.createElement("div");
+  div.className = "list-row";
 
-// console.log(func2("fund2です"));
+  const li = document.createElement("li");
+  li.innerText = text;
 
-// // 分割代入
-// const my = {
-//    name: "な",
-//    age: 27,
-// };
+  // 完了ボタン
+  const complete_button = document.createElement("button");
+  complete_button.innerText = "完了";
+  complete_button.addEventListener("click", ()=> {
+    delete_from_incomplete(complete_button.parentNode);
+    // 完了リストに追加する要素
+    const add_target = complete_button.parentNode;
+    // TODOのliタグのテキストを取得
+    const text = add_target.firstElementChild.innerText;
+    // div以下を初期化→なぜ？→ボタンを一括削除している
+    add_target.textContent = null;
+    // liタグを作成
+    const li = document.createElement("li");
+    li.innerText = text;
+    // 戻すボタンを作成
+    const back_button = document.createElement("button");
+    back_button.innerText = "戻す";
+    back_button.addEventListener("click", () => {
+      const delete_target = back_button.parentNode;
+      document.getElementById("complete-list").removeChild(delete_target);
+      const text = delete_target.firstElementChild.innerText;
+      create_incomplete_list(text);
+    });
 
+    add_target.appendChild(li);
+    add_target.appendChild(back_button);
 
-// const arr = [1, 2, 3];
+    document.getElementById("complete-list").appendChild(add_target);
+  });
 
-// const sumfunc = (num1, num2) => console.log(num1 + num2);
+  // 削除ボタン
+  const delete_button = document.createElement("button");
+  delete_button.innerText = "削除";
+  delete_button.addEventListener("click", ()=> {
+    delete_from_incomplete(delete_button.parentNode);
+  });
 
-// // sumfunc(arr[0], arr[1]);
-// sumfunc(...arr)
+  div.appendChild(li);
+  div.appendChild(complete_button);
+  div.appendChild(delete_button);
 
-// const arr = [1,2];
-// const arr4 = arr;
-// // console.log(arr4);
-// const arr5 = [...arr]
-// console.log(arr5)
+  document.getElementById("incomplete-list").appendChild(div);
+};
 
-// const nameArr = ["田中", "鈴木", "佐藤"];
-// for (let index = 0; index < nameArr.length; index++){
-//   console.log(nameArr[index])
-// };
+// 入力フォームで追加をクリックしたとき
+document.getElementById("add-button").addEventListener("click", ()=> onClickAdd());
 
-// const nameArr2 = nameArr.map((name)=>{
-//   return name;
-// });
-// console.log(nameArr2)
-
-// const Arr = [1,2,3,4,5];
-// const newArr = Arr.filter((num)=>{
-//   return num % 2 === 0;
-// });
-// console.log(newArr);
-
-const num = 2;
-const fee = "あああ" && num;
-console.log(fee);
